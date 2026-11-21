@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { CatalogueCategory } from '@/hooks/use-catalogue'
 
 /*
  * Categories as circular photo tiles on a scrolling rail.
@@ -117,11 +118,11 @@ const CATEGORIES: Category[] = [
 export default function CircularCategoryRail({
   title = 'Shop by category',
   subtitle = 'Every department, one row.',
-  categories = CATEGORIES,
+  categories = [],
 }: {
   title?: string
   subtitle?: string
-  categories?: Category[]
+  categories?: CatalogueCategory[] 
 }) {
   const rail = useRef<HTMLUListElement>(null)
   const [atStart, setAtStart] = useState(true)
@@ -204,15 +205,15 @@ export default function CircularCategoryRail({
           {categories.map((category) => (
             <li key={category.name} className="w-24 shrink-0 snap-start md:w-28">
               <a
-                href={category.href}
+                href={`/categories/${category.slug}`}
                 className="group flex flex-col items-center gap-2 rounded-lg p-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
               >
                 <span
-                  className={`block aspect-square w-full overflow-hidden rounded-full ring-2 ring-white transition-shadow group-hover:shadow-lg ${category.tone}`}
+                  className={`block aspect-square w-full overflow-hidden rounded-full ring-2 ring-white transition-shadow group-hover:shadow-lg white`}
                 >
                   {/* Decorative: the name is directly beneath it in text. */}
                   <img
-                    src={category.image}
+                    src={category.image?.url}
                     alt=""
                     loading="lazy"
                     className="size-full object-cover transition-transform duration-500 group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"

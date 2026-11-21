@@ -47,13 +47,21 @@ async function get<T>(
 }
 
 export function useCatalogue(
-  params: { page?: number; pageSize?: number; search?: string } = {},
+  params: {
+    page?: number;
+    pageSize?: number;
+    search?: string;
+    categoryIds?: string[];
+  } = {},
 ) {
   const query: Record<string, string> = {
     page: String(params.page ?? 1),
     page_size: String(params.pageSize ?? 24),
   };
   if (params.search) query.search = params.search;
+  if (params.categoryIds?.length) {
+    query.category_id = params.categoryIds.join(",");
+  }
 
   return useQuery({
     queryKey: ["catalogue", query],
